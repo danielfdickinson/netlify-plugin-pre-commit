@@ -1,7 +1,10 @@
 name: "netlify-plugin-pre-commit"
-inputs: []
-# Example inputs:
-#  - name: example
-#    description: Example description
-#    default: 5
-#    required: false
+inputs:
+- name: debug
+  description: Show more verbose logs
+  default: false
+  required: false
+- name: srcdir
+  description: Relative path to source directory for use with Hugo's `--source | -s` option. # yamllint disable-line
+  default: ""
+  required: false

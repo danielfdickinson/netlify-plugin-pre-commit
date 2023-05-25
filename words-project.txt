@@ -9,7 +9,10 @@ jsdoc
 linebreak
 loglevel
 markdownlint
+nodir
+nodirs
 nonwords
 paren
 parens
+srcdir
 stroustrup

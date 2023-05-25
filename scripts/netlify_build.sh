@@ -6,12 +6,12 @@ set -o pipefail
 export PATH="${HOME}"/.local/bin:"${PATH}"
 
 if [ "$NETLIFY" != "true" ]; then
+	echo "Installing pre-commit and hooks"
 	pip install --user pipx
 	pipx install --force pre-commit
+	pre-commit install --install-hooks
+	pre-commit run --all-files
 fi
-
-pre-commit install --install-hooks
-pre-commit run --all-files
 
 bash ./scripts/hugo-audit.sh
 bash ./scripts/check-internal-links.sh

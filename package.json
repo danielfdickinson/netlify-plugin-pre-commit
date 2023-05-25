@@ -14,6 +14,7 @@
 		"ava": "^5.2.0",
 		"cross-env": "^7.0.2",
 		"eslint": "^8.41.0",
+		"eslint-cli": "^1.1.1",
 		"eslint-config-prettier": "^8.0.0",
 		"eslint-formatter-codeframe": "^7.32.1",
 		"eslint-plugin-ava": "^14.0.0",
@@ -46,9 +47,9 @@
 	"license": "MIT",
 	"main": "./src/index.js",
 	"name": "netlify-plugin-pre-commit",
-	"repository": "//github.com/danielfdickinson/netlify-plugin-pre-commit",
+	"repository": "https://github.com/danielfdickinson/netlify-plugin-pre-commit",
 	"scripts": {
-		"ava": "cross-env FORCE_COLOR=1 ava --verbose",
+		"ava": "cross-env FORCE_COLOR=1 NETLIFY=true ava --verbose --timeout 5m",
 		"build": "netlify-build",
 		"eslint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"{src,init}/**/*.{cjs,mjs,js}\"",
 		"lint": "npm run eslint && npm run prettier",
@@ -57,5 +58,8 @@
 		"test": "npm run lint && npm run ava"
 	},
 	"type": "module",
-	"version": "0.0.1"
+	"version": "0.0.1",
+	"dependencies": {
+		"glob": "^10.2.6"
+	}
 }
