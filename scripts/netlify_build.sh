@@ -7,7 +7,7 @@ export PATH="${HOME}"/.local/bin:"${PATH}"
 
 if [ "$NETLIFY" != "true" ]; then
 	pip install --user pipx
-	pipx install pre-commit
+	pipx install --force pre-commit
 fi
 
 pre-commit install --install-hooks
