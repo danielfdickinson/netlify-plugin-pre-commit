@@ -3,3 +3,4 @@ languageCode = 'en-us'
 title = 'Placeholder for netlify-plugin-pre-commit testing'
 
 disableKinds = ["sitemap", "taxonomy", "terms", "RSS"]
+ignoreErrors = ["error-disable-taxonomy"]
