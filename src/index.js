@@ -14,7 +14,7 @@ const getCacheDir = ({ xdgHome, userHome }) => {
 	if (xdgHome == '') {
 		cacheDir = userHome
 	} else {
-		cacheDir = path.join(userHome, '.cache')
+		cacheDir = path.join(userHome, '.cache', 'pre-commit')
 	}
 	return cacheDir
 }
@@ -115,10 +115,8 @@ export const onPreBuild = async function ({
 		)
 
 		if (existsSync(preCommitConfig)) {
-			var runSuccess = await run.command(
-				'pre-commit install --install-hooks -f',
-			)
-			runSuccess = await run.command('pre-commit run --all-files')
+			await run.command('pre-commit install --install-hooks -f')
+			await run.command('pre-commit run --all-files')
 		}
 	} catch (error) {
 		// Report a user error
