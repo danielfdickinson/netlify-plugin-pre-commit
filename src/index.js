@@ -4,7 +4,7 @@
 
 import path from 'path'
 import { glob } from 'glob'
-import { existsSync, fstat } from 'fs'
+import { existsSync } from 'fs'
 
 const xdgHome = process.env.XDG_CACHE_HOME
 const userHome = process.env.HOME
@@ -21,7 +21,7 @@ const getCacheDir = ({ xdgHome, userHome }) => {
 
 const printList = (items) => {
 	console.log('---')
-	items.forEach((item, index) => {
+	items.forEach((item) => {
 		console.log(`{$index + 1}: ${item}`)
 	})
 }
