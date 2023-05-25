@@ -13,7 +13,8 @@ package = "."
 
 [build]
 # Dummy build command
-command = "echo onBuild"
+command = "echo onBuild && mkdir dist"
 
 [build.environment]
+GO_VERSION = "1.20.4"
 NODE_VERSION = "18.16.0"
