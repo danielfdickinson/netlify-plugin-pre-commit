@@ -1,5 +1,5 @@
 {
-	"author": "Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>",
+	"author": "Daniel F. Dickinson <dfdpublic@wildtechgarden.ca> (https://www.danielfdickinson.ca)",
 	"ava": {
 		"environmentVariables": {
 			"FORCE_COLOR": "1"
@@ -7,7 +7,7 @@
 		"timeout": "100s",
 		"verbose": true
 	},
-	"description": "Netlify Build plugin - Speed up use of pre-commit with Netlify (especially by caching hook installation)",
+	"description": "Netlify build plugin for pre-commit - Speed up and ease use of pre-commit with Netlify (especially by caching hook installation)",
 	"devDependencies": {
 		"@netlify/build": "^29.11.5",
 		"@typescript-eslint/eslint-plugin": "^5.59.7",
@@ -41,13 +41,21 @@
 		"manifest.yml"
 	],
 	"keywords": [
+		"ci",
+		"linting",
 		"netlify-plugin",
-		"netlify"
+		"netlify",
+		"pre-commit",
+		"pre-commit-hooks"
 	],
 	"license": "MIT",
 	"main": "./src/index.js",
 	"name": "netlify-plugin-pre-commit",
 	"repository": "https://github.com/danielfdickinson/netlify-plugin-pre-commit",
+	"bugs": {
+		"url": "https://github.com/danielfdickinson/netlify-plugin-pre-commit/issues",
+		"email": "dfdpublic@wildtechgarden.ca"
+	},
 	"scripts": {
 		"ava": "cross-env FORCE_COLOR=1 NETLIFY=true ava --verbose --timeout 5m",
 		"build": "netlify-build",

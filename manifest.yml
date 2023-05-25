@@ -4,7 +4,3 @@ inputs:
   description: Show more verbose logs
   default: false
   required: false
-- name: srcdir
-  description: Relative path to source directory for use with Hugo's `--source | -s` option. # yamllint disable-line
-  default: ""
-  required: false

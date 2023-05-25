@@ -1,9 +1,9 @@
-# Netlify Build plugin pre-commit
+# Netlify build plugin for pre-commit
 
 ## Description
 
-Speed up use of pre-commit with Netlify (especially by caching hook
-installation).
+Speed up and ease use of [pre-commit](https://pre-commit.com) with
+[Netlify](https://www.netlify.com) (especially by caching hook installation).
 
 ## Status
 
@@ -11,10 +11,13 @@ installation).
 
 ## Install
 
-Please install this plugin from the Netlify app.
+Currently this plugin can only be installed using [file-based
+installation](https://docs.netlify.com/integrations/build-plugins/#file-based-installation).
 
 ## Configuration
 
 ### The following `inputs` options are available
 
-None
+| option | default | notes |
+|--------|---------|-------|
+| debug  | `false` | when `true` outputs more verbose logs |
