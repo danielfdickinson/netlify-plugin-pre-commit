@@ -1,3 +1,4 @@
+ENABLEGITINFO
 automerge
 codeframe
 danielfdickinson

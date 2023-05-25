@@ -13,8 +13,13 @@ package = "."
 
 [build]
 # Dummy build command
-command = "echo onBuild && mkdir dist"
+command = "bash ./scripts/netlify_build.sh"
+publish = "public"
 
 [build.environment]
 GO_VERSION = "1.20.4"
+HUGO_ENABLEGITINFO = "true"
+HUGO_ENV = "production"
+HUGO_VERSION = "0.111.3"
 NODE_VERSION = "18.16.0"
+TZ="America/Toronto"
