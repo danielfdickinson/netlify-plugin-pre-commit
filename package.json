@@ -52,7 +52,7 @@
 		"build": "netlify-build",
 		"eslint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"{src,init}/**/*.{cjs,mjs,js}\"",
 		"lint": "npm run eslint && npm run prettier",
-		"prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"{.github,src,init}/**/*.{cjs,mjs,js,md,yml,json}\" \"*.{cjs,mjs,js,md,yml,json}\"",
+		"prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"{.github,src,init}/**/*.{cjs,mjs,js}\" \"*.{cjs,mjs,js}\"",
 		"release": "release-it",
 		"test": "npm run lint && npm run ava"
 	},
