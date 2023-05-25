@@ -20,6 +20,7 @@
 		"**/LICENSE",
 		"cspell.json",
 		"node_modules",
+		"./requirements.txt",
 		"./scripts",
 		"./words-*.txt"
 	],

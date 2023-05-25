@@ -5,12 +5,10 @@ set -o pipefail
 
 export PATH="${HOME}"/.local/bin:"${PATH}"
 
-if [ "$NETLIFY" = "true" ]; then
-	pip install pipx
-else
+if [ "$NETLIFY" != "true" ]; then
 	pip install --user pipx
+	pipx install pre-commit
 fi
-pipx install --force pre-commit
 
 pre-commit install --install-hooks
 pre-commit run --all-files
