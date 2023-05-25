@@ -1,0 +1,119 @@
+---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+# yamllint disable rule:line-length
+# Initially copied from https://github.com/davidsneighbour/kollitsch.dev/blob/main/.pre-commit-config.yaml
+# cspell:ignore reforme gitleaks gitlint autofix gitmodules
+# yamllint enable
+fail_fast: true
+minimum_pre_commit_version: 3.1.1
+
+# yamllint disable rule:key-ordering
+repos:
+- repo: "https://github.com/pre-commit/pre-commit-hooks"
+  rev: v4.4.0
+  hooks:
+  - id: check-added-large-files
+  # - Prevent giant files from being committed.
+  - id: check-case-conflict
+  # - checks for files that would conflict in
+  #   case-insensitive filesystems.
+  - id: check-merge-conflict
+  # - checks for files that contain merge conflict strings.
+  - id: check-symlinks
+  # - checks for symlinks which do not point to anything.
+  - id: check-toml
+  # - checks toml files for parsable syntax.
+  - id: check-vcs-permalinks
+  # - ensures that links to vcs websites are permalinks.
+  # - id: destroyed-symlinks
+  # - detects symlinks which are changed to regular
+  # files with a content of a path which that symlink was pointing to.
+  - id: detect-private-key
+  # - detects the presence of private keys.
+  - id: file-contents-sorter
+    files: ^(words-.*.txt$)
+    args: [--unique]
+  - id: fix-byte-order-marker
+  # - removes utf-8 byte order marker
+  - id: forbid-new-submodules
+  # - prevents addition of new git submodules.
+  - id: mixed-line-ending
+  # replaces or checks mixed line ending.
+  - id: no-commit-to-branch # - don't commit to branch
+    args:
+    - --branch
+    - main
+    - --branch
+    - "v[0-9].[0-9]" # yamllint disable-line
+  - id: pretty-format-json
+    # - Checks that all your JSON files are pretty. "Pretty"
+    # here means that keys are sorted and indented.
+    exclude: ^(.vscode|package.json$|package-lock.json$)
+    args: [--autofix, --indent, "	"]
+  - id: trailing-whitespace
+    exclude: ^(_vendor)
+    args: [--markdown-linebreak-ext=md]
+
+- repo: "https://github.com/pre-commit/mirrors-eslint"
+  rev: v8.41.0
+  hooks:
+  - id: eslint
+    additional_dependencies:
+    - "@typescript-eslint/eslint-plugin@5.59.7"
+    - ava@5.2.0
+    - eslint@8.41.0
+    - eslint-config-prettier@8.0.0
+    - eslint-formatter-codeframe@7.32.1
+    - eslint-plugin-ava@14.0.0
+    - eslint-plugin-prettier@4.0.0
+    args:
+    - -c
+    - .eslintrc.cjs
+
+- repo: "https://github.com/igorshubovych/markdownlint-cli"
+  rev: v0.34.0
+  hooks:
+  - id: markdownlint
+    args: [--config, .markdownlint.json]
+    files: .+\.(md|markdown)$
+
+- repo: "https://github.com/adrienverge/yamllint"
+  rev: v1.32.0
+  hooks:
+  - id: yamllint
+    exclude: ^(_vendor$)
+
+- repo: "https://github.com/zricethezav/gitleaks"
+  rev: v8.16.3
+  hooks:
+  - id: gitleaks
+
+- repo: "https://github.com/jorisroovers/gitlint"
+  rev: v0.19.1
+  hooks:
+  - id: gitlint
+
+- repo: "https://github.com/editorconfig-checker/editorconfig-checker.python"
+  rev: 2.7.1
+  hooks:
+  - id: editorconfig-checker
+    alias: ec
+    args:
+    - -no-color
+    exclude: ^(.*/LICENSE|.vscode)
+
+- repo: "https://github.com/streetsidesoftware/cspell-cli"
+  rev: v6.31.0
+  hooks:
+  - id: cspell
+    args:
+    - --gitignore
+    - --gitignore-root
+    - --no-cache
+    - --no-must-find-files
+    - --show-context
+    - --show-suggestions
+    - --validate-directives
+# yamllint enable rule:key-ordering
+...

@@ -1,8 +1,8 @@
 {
-  extends: ['github>netlify/renovate-config:esm'],
-  ignorePresets: [':prHourlyLimit2'],
-  semanticCommits: true,
-  dependencyDashboard: true,
-  automerge: true,
-  packageRules: [],
+	extends: ['github>netlify/renovate-config:esm'],
+	ignorePresets: [':prHourlyLimit2'],
+	semanticCommits: true,
+	dependencyDashboard: true,
+	automerge: true,
+	packageRules: [],
 }

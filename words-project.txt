@@ -1,0 +1,14 @@
+automerge
+codeframe
+danielfdickinson
+envinfo
+eqeqeq
+execa
+jsdoc
+linebreak
+loglevel
+markdownlint
+nonwords
+paren
+parens
+stroustrup

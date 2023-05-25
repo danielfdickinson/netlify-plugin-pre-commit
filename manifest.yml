@@ -1,4 +1,4 @@
-name: 'netlify-plugin-{{name}}'
+name: "netlify-plugin-pre-commit"
 inputs: []
 # Example inputs:
 #  - name: example

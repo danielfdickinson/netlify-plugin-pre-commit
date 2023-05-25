@@ -17,7 +17,7 @@ Everyone is welcome regardless of personal background. We enforce a
 [Code of conduct](CODE_OF_CONDUCT.md) in order to promote a positive and
 inclusive environment.
 
-# Development process
+## Development process
 
 First fork and clone the repository. If you're not sure how to do this, please
 watch
@@ -35,7 +35,7 @@ Make sure everything is correctly setup with:
 npm test
 ```
 
-# Development tasks
+## Development tasks
 
 The following development tasks are available. Please check the
 [`package.json`](/package.json) `scripts` property for more information.

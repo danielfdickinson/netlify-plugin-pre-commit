@@ -1,60 +1,61 @@
 {
-  "name": "netlify-plugin-pre-commit",
-  "version": "0.0.1",
-  "description": "Netlify Build plugin - Speed up use of pre-commit with Netlify (especially by caching hook installation)",
-  "type": "module",
-  "exports": "./src/index.js",
-  "main": "./src/index.js",
-  "files": [
-    "src/**/*.js",
-    "src/**/*.json",
-    "src/**/*.sh",
-    "src/**/*.html",
-    "src/**/*.ejs",
-    "manifest.yml"
-  ],
-  "keywords": [
-    "netlify-plugin",
-    "netlify"
-  ],
-  "author": "Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>",
-  "license": "MIT",
-  "repository": "//github.com/danielfdickinson/netlify-plugin-pre-commit",
-  "directories": {
-    "lib": "src",
-    "test": "test"
-  },
-  "engines": {
-    "node": "^14.14.0 || >=16.0.0"
-  },
-  "ava": {
-    "verbose": true,
-    "timeout": "100s",
-    "environmentVariables": {
-      "FORCE_COLOR": "1"
-    }
-  },
-  "scripts": {
-    "build": "netlify-build",
-    "test": "npm run lint && npm run ava",
-    "lint": "npm run eslint && npm run prettier",
-    "eslint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"{src,init}/**/*.{cjs,mjs,js}\"",
-    "prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"{.github,src,init}/**/*.{cjs,mjs,js,md,yml,json}\" \"*.{cjs,mjs,js,md,yml,json}\"",
-    "ava": "cross-env FORCE_COLOR=1 ava --verbose",
-    "release": "release-it"
-  },
-  "devDependencies": {
-    "@netlify/build": "^29.11.5",
-    "ava": "^4.0.0",
-    "cross-env": "^7.0.2",
-    "eslint": "^7.10.0",
-    "eslint-config-prettier": "^8.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "execa": "^6.0.0",
-    "netlify-cli": "^15.1.1",
-    "prettier": "^2.1.2",
-    "release-it": "^15.0.0"
-  }
+	"author": "Daniel F. Dickinson <dfdpublic@wildtechgarden.ca>",
+	"ava": {
+		"environmentVariables": {
+			"FORCE_COLOR": "1"
+		},
+		"timeout": "100s",
+		"verbose": true
+	},
+	"description": "Netlify Build plugin - Speed up use of pre-commit with Netlify (especially by caching hook installation)",
+	"devDependencies": {
+		"@netlify/build": "^29.11.5",
+		"@typescript-eslint/eslint-plugin": "^5.59.7",
+		"ava": "^5.2.0",
+		"cross-env": "^7.0.2",
+		"eslint": "^8.41.0",
+		"eslint-config-prettier": "^8.0.0",
+		"eslint-formatter-codeframe": "^7.32.1",
+		"eslint-plugin-ava": "^14.0.0",
+		"eslint-plugin-prettier": "^4.0.0",
+		"execa": "^6.0.0",
+		"netlify-cli": "^15.1.1",
+		"prettier": "^2.1.2",
+		"release-it": "^15.0.0"
+	},
+	"directories": {
+		"lib": "src",
+		"test": "test"
+	},
+	"engines": {
+		"node": ">=18.16.0"
+	},
+	"exports": "./src/index.js",
+	"files": [
+		"src/**/*.js",
+		"src/**/*.json",
+		"src/**/*.sh",
+		"src/**/*.html",
+		"src/**/*.ejs",
+		"manifest.yml"
+	],
+	"keywords": [
+		"netlify-plugin",
+		"netlify"
+	],
+	"license": "MIT",
+	"main": "./src/index.js",
+	"name": "netlify-plugin-pre-commit",
+	"repository": "//github.com/danielfdickinson/netlify-plugin-pre-commit",
+	"scripts": {
+		"ava": "cross-env FORCE_COLOR=1 ava --verbose",
+		"build": "netlify-build",
+		"eslint": "eslint --ignore-path .gitignore --fix --cache --format=codeframe --max-warnings=0 \"{src,init}/**/*.{cjs,mjs,js}\"",
+		"lint": "npm run eslint && npm run prettier",
+		"prettier": "prettier --ignore-path .gitignore --write --loglevel warn \"{.github,src,init}/**/*.{cjs,mjs,js,md,yml,json}\" \"*.{cjs,mjs,js,md,yml,json}\"",
+		"release": "release-it",
+		"test": "npm run lint && npm run ava"
+	},
+	"type": "module",
+	"version": "0.0.1"
 }

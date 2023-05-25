@@ -16,11 +16,11 @@ Please search other issues to make sure this bug has not already been reported.
 
 Then fill in the sections below.
 
-**Describe the bug**
+## Describe the bug
 
 A clear and concise description of what the bug is.
 
-**Steps to reproduce**
+## Steps to reproduce
 
 Step-by-step instructions on how to reproduce the behavior.
 
@@ -29,15 +29,15 @@ Example:
 1. Type the following command: [...]
 2. etc.
 
-**Expected behavior**
+## Expected behavior
 
 A clear and concise description of what you expected to happen.
 
-**Configuration**
+## Configuration
 
 Command line options and/or configuration file, if any.
 
-**Environment**
+## Environment
 
 Enter the following command in a terminal and copy/paste its output:
 
@@ -45,11 +45,11 @@ Enter the following command in a terminal and copy/paste its output:
 npx envinfo --system --binaries --browsers --npmPackages netlify-plugin-pre-commit
 ```
 
-**Screenshots**
+## Screenshots
 
 If applicable, add screenshots to help explain your problem.
 
-**Can you submit a pull request?**
+## Can you submit a pull request
 
 Yes/No.
 
