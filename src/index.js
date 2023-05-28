@@ -3,21 +3,22 @@
 // Find more information in the Netlify documentation.
 
 import path from 'path'
-import fs from 'fs';
+import fs from 'fs'
 import { glob } from 'glob'
 import { existsSync } from 'fs'
 
 const getCacheDir = () => {
+	var cacheDir
 	const xdgHome = process.env.XDG_CACHE_HOME
 	const userHome = process.env.HOME
 
-	var cacheDir = ''
-	if (xdgHome != '') {
+	cacheDir = ''
+	if (xdgHome && xdgHome != '') {
 		cacheDir = xdgHome
 	} else {
 		cacheDir = path.join(userHome, '.cache', 'pre-commit')
 	}
-	return cacheDir
+	return cacheDir.toString()
 }
 
 const printList = (items) => {
@@ -96,15 +97,13 @@ export const onPreBuild = async function ({
 }) {
 	try {
 		const cacheDir = getCacheDir()
-		fs.rm(cacheDir, { recursive: true, force: true})
+		fs.rm(cacheDir, { recursive: true, force: true }, () => {})
 		const cacheSuccess = await cache.restore(cacheDir)
 
 		console.log(`Checking if user cache exists at "${cacheDir}"`)
 
 		if (cacheSuccess) {
-			console.log(
-				`Restored user cache directory.`,
-			)
+			console.log(`Restored user cache directory.`)
 			if (inputs.debug) printList(printList(cache.list(cacheDir)))
 		} else {
 			console.log('No Netlify cache found for user cache directory.')
@@ -197,9 +196,7 @@ export const onBuild = async function ({
 		const success = await cache.save(cacheDir)
 
 		if (success) {
-			console.log(
-				`Saved user cache directory to Netlify cache`,
-			)
+			console.log(`Saved user cache directory to Netlify cache`)
 
 			if (inputs.debug) {
 				const cached = await cache.list(cacheDir)
