@@ -6,7 +6,7 @@
 # cspell:ignore reforme gitleaks gitlint autofix gitmodules
 # yamllint enable
 fail_fast: true
-minimum_pre_commit_version: 3.1.1
+minimum_pre_commit_version: 3.2.2
 
 # yamllint disable rule:key-ordering
 repos:
@@ -76,26 +76,36 @@ repos:
   rev: v0.34.0
   hooks:
   - id: markdownlint
-    additional_dependencies:
-    - commander
-    - glob
-    - markdownlint-cli
+    # additional_dependencies:
+    # - commander@10.0.1
+    # - deep-extend
+    # - get-stdin@9.0.0
+    # - glob@10.2.6
+    # - ignore@5.2.4
+    # - js-yaml@4.1.0
+    # - jsonc-parser@3.2.0
+    # - markdownlint-cli@0.34.0
+    # - markdownlint@0.28.2
+    # - markdown-it@13.0.1
+    # - markdownlint-micromark@0.1.2
+    # - minimatch@9.0.1
+    # - run-con@1.2.11
     args: [--config, .markdownlint.json]
     files: .+\.(md|markdown)$
 
 - repo: "https://github.com/adrienverge/yamllint"
-  rev: v1.32.0
+  rev: v1.31.0
   hooks:
   - id: yamllint
     exclude: ^(_vendor$)
 
-- repo: "https://github.com/zricethezav/gitleaks"
-  rev: v8.16.3
+- repo: "https://github.com/gitleaks/gitleaks"
+  rev: v8.16.1
   hooks:
   - id: gitleaks
 
 - repo: "https://github.com/jorisroovers/gitlint"
-  rev: v0.19.1
+  rev: v0.18.0
   hooks:
   - id: gitlint
 
@@ -112,9 +122,9 @@ repos:
   rev: v6.31.0
   hooks:
   - id: cspell
-    additional_dependencies:
-    - cspell@6.31.0
-    - cspell-cli@6.31.0
+    # additional_dependencies:
+    # - cspell@6.31.0
+    # - cspell-cli@6.31.0
     args:
     - --gitignore
     - --gitignore-root

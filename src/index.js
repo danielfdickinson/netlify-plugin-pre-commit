@@ -4,8 +4,9 @@
 
 import path from 'path'
 import fs from 'fs'
-import { glob } from 'glob'
 import { existsSync } from 'fs'
+import process from 'process'
+import archiver from 'archiver'
 
 const getCacheDir = () => {
 	var cacheDir
@@ -16,16 +17,60 @@ const getCacheDir = () => {
 	if (xdgHome && xdgHome != '') {
 		cacheDir = xdgHome
 	} else {
-		cacheDir = path.join(userHome, '.cache', 'pre-commit')
+		cacheDir = path.join(userHome, '.cache')
 	}
-	return cacheDir.toString()
+	cacheDir = path.join(cacheDir, 'pre-commit')
+	return cacheDir
 }
 
-const printList = (items) => {
-	console.log('---')
-	items.forEach((item) => {
-		console.log(`{$index + 1}: ${item}`)
+const getArchiveCacheDir = () => {
+	var archiveDir
+	const xdgHome = process.env.XDG_CACHE_HOME
+	const userHome = process.env.HOME
+
+	archiveDir = ''
+	if (xdgHome && xdgHome != '') {
+		archiveDir = xdgHome
+	} else {
+		archiveDir = path.join(userHome, '.cache')
+	}
+	archiveDir = path.join(archiveDir, 'pre-commit-archive')
+	return archiveDir
+}
+
+const installHooks = async (run) => {
+	return await run.command('pre-commit install --install-hooks -f', {
+		env: 'NETLIFY=true',
 	})
+}
+
+const runHooks = async (run) => {
+	return await run.command('pre-commit run --all-files', {
+		env: 'NETLIFY=true',
+	})
+}
+
+const applyHooks = async (run, status, build) => {
+	const success = await installHooks(run)
+	var result = false
+
+	if (success) {
+		try {
+			result = await runHooks(run)
+
+			if (result) {
+				await status.show({ summary: 'Success!' })
+			} else {
+				await build.failBuild('Hook run failed.')
+			}
+		} catch (reason) {
+			await build.failBuild('Hooks installation failed', {
+				reason,
+			})
+		}
+	}
+
+	return result
 }
 
 /* eslint-disable no-unused-vars */
@@ -95,39 +140,60 @@ export const onPreBuild = async function ({
 		functions,
 	},
 }) {
+	const preCommitConfig = path.join(process.cwd(), '.pre-commit-config.yaml')
+
+	if (!existsSync(preCommitConfig)) {
+		return status.show({ summary: 'No pre-commit config.' })
+	}
+
+	const cacheDir = getCacheDir()
+	const archiveDir = getArchiveCacheDir()
+
+	console.log(
+		`Removing existing archived local user cache in "${archiveDir}"`,
+	)
+	fs.rmSync(archiveDir, { recursive: true, force: true })
+
+	console.log(`Restoring user cache at "${archiveDir}"`)
+	var success = false
+
+	console.log(`Removing existing local user cache in "${cacheDir}"`)
+	fs.rmSync(cacheDir, { recursive: true, force: true })
+
+	fs.mkdirSync(cacheDir)
+	const cacheCreated = true
+
 	try {
-		const cacheDir = getCacheDir()
-		fs.rm(cacheDir, { recursive: true, force: true }, () => {})
-		const cacheSuccess = await cache.restore(cacheDir)
+		const restored = await cache.restore(archiveDir)
+		var extracted = false
+		if (restored && cacheCreated) {
+			console.log('Extracting the archived local user cache')
+			extracted = await run('tar', [
+				'-C',
+				cacheDir,
+				'-xzf',
+				path.join(archiveDir, 'pre-commit.tar.gz'),
+			])
+		}
 
-		console.log(`Checking if user cache exists at "${cacheDir}"`)
-
-		if (cacheSuccess) {
-			console.log(`Restored user cache directory.`)
-			if (inputs.debug) printList(printList(cache.list(cacheDir)))
+		if (extracted) {
+			console.log(`Extracted user cache directory.`)
 		} else {
 			console.log('No Netlify cache found for user cache directory.')
 		}
 
-		const preCommitConfig = path.join(
-			process.cwd(),
-			'.pre-commit-config.yaml',
-		)
-
-		if (existsSync(preCommitConfig)) {
-			await run.command('pre-commit install --install-hooks -f')
-			await run.command('pre-commit run --all-files')
-		}
+		success = await applyHooks(run, status, build)
 	} catch (error) {
 		// Report a user error
 		build.failBuild('Error message', { error })
 	}
 
-	// Display success information
-	status.show({ summary: 'Success!' })
+	const result = success
+	console.log('Environment prepared.')
+	return result
 }
 
-export const onBuild = async function ({
+export const onPostBuild = async function ({
 	// Whole configuration file. For example, content of `netlify.toml`
 	netlifyConfig,
 	// Users can pass configuration inputs to any plugin in their Netlify
@@ -188,39 +254,64 @@ export const onBuild = async function ({
 		functions,
 	},
 }) {
+	var archiveCache
+
 	try {
 		const cacheDir = getCacheDir()
+		const archiveDir = getArchiveCacheDir()
 
 		console.log(`Checking if user cache exists at "${cacheDir}"`)
 
-		const success = await cache.save(cacheDir)
+		fs.mkdirSync(archiveDir, { recursive: true })
+
+		console.log(
+			`Archiving local user cache at "${cacheDir}" to "${archiveDir}/pre-commit.tar.gz"`,
+		)
+
+		const archiveOutput = fs.createWriteStream(
+			path.join(archiveDir, 'pre-commit.tar.gz'),
+		)
+		archiveCache = archiver('tar', {
+			gzip: true,
+		})
+		var success = false
+
+		if (archiveCache) {
+			console.log('Archive started.')
+			archiveCache.on('warning', (err) => {
+				if (err.code === 'ENOENT') {
+					console.log('Missing file')
+				} else {
+					throw err
+				}
+			})
+			archiveCache.on('error', (err) => {
+				throw err
+			})
+
+			archiveCache.pipe(archiveOutput)
+			archiveCache.directory(cacheDir, false)
+			console.log('Finalizing archive')
+			await archiveCache.finalize()
+			console.log(`Archived user cache directory (step 1)`)
+			success = await cache.save(archiveDir)
+		}
 
 		if (success) {
-			console.log(`Saved user cache directory to Netlify cache`)
-
-			if (inputs.debug) {
-				const cached = await cache.list(cacheDir)
-
-				const cachedFiles = [
-					...new Set(
-						cached
-							.map((c) => glob.sync(`${c}/**/*`, { nodir: true }))
-							.flat(),
-					),
-				]
-
-				printList(cachedFiles)
-			}
+			console.log(`Saved user cache directory to Netlify cache (step 2)`)
 		} else {
 			console.log('No user cache directory saved to Netlify cache.')
 		}
 	} catch (error) {
+		if (archiveCache) {
+			archiveCache.abort()
+		}
 		// Report a user error
-		build.failBuild('Error message', { error })
+		await build.failBuild('Error message', { error })
 	}
 
 	// Display success information
-	status.show({ summary: 'Success!' })
+	await status.show({ summary: 'Success!' })
 }
 
 // Other available event handlers
@@ -241,7 +332,14 @@ export const onSuccess = function () {}
 // Runs on build error
 export const onError = function () {}
 
-// Runs on build error or success
-export const onEnd = function () {}
-
 */
+
+// Runs on build error or success
+export const onEnd = function () {
+	const archiveDir = getArchiveCacheDir()
+
+	console.log(
+		`Removing existing archived local user cache in "${archiveDir}"`,
+	)
+	fs.rmSync(archiveDir, { recursive: true, force: true })
+}

@@ -64,9 +64,10 @@
 	"version": "0.2.0-alpha.1",
 	"dependencies": {
 		"@netlify/build": "^29.11.5",
+		"archiver": "^5.3.1",
 		"execa": "^6.0.0",
 		"glob": "^10.2.6",
-		"netlify-cli": "^15.1.1",
+		"netlify-cli": "^15.2.0",
 		"rimraf": "^5.0.1"
 	}
 }
