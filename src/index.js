@@ -245,13 +245,13 @@ export const onPostBuild = async function ({
 		cache,
 		// Utility for running commands.
 		// See https://github.com/netlify/build/blob/master/packages/run-utils#readme
-		run,
+		// run,
 		// Utility for dealing with modified, created, deleted files since a git commit.
 		// See https://github.com/netlify/build/blob/master/packages/git-utils#readme
-		git,
+		// git,
 		// Utility for handling Netlify Functions.
 		// See https://github.com/netlify/build/tree/master/packages/functions-utils#readme
-		functions,
+		// functions,
 	},
 }) {
 	var archiveCache
