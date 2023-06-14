@@ -56,7 +56,7 @@ repos:
     args: [--markdown-linebreak-ext=md]
 
 - repo: "https://github.com/pre-commit/mirrors-eslint"
-  rev: v8.41.0
+  rev: v8.42.0
   hooks:
   - id: eslint
     additional_dependencies:
@@ -94,18 +94,18 @@ repos:
     files: .+\.(md|markdown)$
 
 - repo: "https://github.com/adrienverge/yamllint"
-  rev: v1.31.0
+  rev: v1.32.0
   hooks:
   - id: yamllint
     exclude: ^(_vendor$)
 
 - repo: "https://github.com/gitleaks/gitleaks"
-  rev: v8.16.1
+  rev: v8.16.4
   hooks:
   - id: gitleaks
 
 - repo: "https://github.com/jorisroovers/gitlint"
-  rev: v0.18.0
+  rev: v0.19.1
   hooks:
   - id: gitlint
 
