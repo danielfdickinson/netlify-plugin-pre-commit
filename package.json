@@ -61,7 +61,7 @@
 		"test": "npm run lint && npm run ava"
 	},
 	"type": "module",
-	"version": "0.2.3-alpha.3",
+	"version": "0.2.4-alpha.4",
 	"dependencies": {
 		"@netlify/build": "^29.11.5",
 		"archiver": "^5.3.1",
